@@ -8,12 +8,34 @@ enum Category {
     Angular,
 }
 
+interface DamageLogger {
+    (param: string): void;
+}
+
 interface Book {
     id: number;
     title: string;
     author: string;
     available: boolean;
     category: Category;
+    pages?: number;
+    markDamaged?: DamageLogger;
+}
+
+type BookProperties = keyof Book;
+
+interface Person {
+    name: string;
+    email: string;
+}
+
+interface Author extends Person {
+    numBooksPublished: number;
+}
+
+interface Librarian extends Person {
+    department: string;
+    assistCustomer: (custName: string, bookTitle: string) => void;
 }
 
 // interface Lib {
@@ -112,9 +134,13 @@ const createCustomer = (name: string, age?: number, city?: string): void => {
     }
 };
 
-const getBookByID = (bookId: number): Book => {
+const getBookByID = (bookId: Book['id']): Book | undefined => {
     const allBooks = getAllBooks();
     return allBooks.find(({ id }) => id === bookId);
+};
+
+const printBook = (book: Book): void => {
+    console.log(`${book.title} by ${book.author}`);
 };
 
 const checkoutBooks = (customer: string, ...bookIDs: number[]): string[] => {
@@ -164,24 +190,78 @@ const bookTitleTransform = (title: any) => {
     return title.split('').reverse().join('');
 };
 
-console.log('createCustomerID(Ann, 10)', myID);
-console.log('idGenerator(John, 22)', idGenerator('John', 22));
-createCustomer('Ann');
-createCustomer('Ann', 22);
-createCustomer('Ann', 22, 'Paris');
-getBookTitlesByCategory();
-logFirstAvailable();
-getBookByID(1);
+// console.log('createCustomerID(Ann, 10)', myID);
+// console.log('idGenerator(John, 22)', idGenerator('John', 22));
+// createCustomer('Ann');
+// createCustomer('Ann', 22);
+// createCustomer('Ann', 22, 'Paris');
+// getBookTitlesByCategory();
+// logFirstAvailable();
+// getBookByID(1);
+//
+// const myBooks = checkoutBooks('Ann', 1, 4);
+// console.log('myBooks', myBooks);
+// console.log('getTitles(Liang Yuxian Eugene)', getTitles('Liang Yuxian Eugene'));
+// console.log('getTitles(false)', getTitles(true));
+// console.log('getTitles(2, true)', getTitles(2, true));
+// console.log('getTitles(3, true)', getTitles(3, true));
+//
+// const checkedOutBooks = getTitles(false);
+// console.log('checkerOutBooks', checkedOutBooks);
+//
+// console.log(bookTitleTransform('Typescript'));
+// console.log(bookTitleTransform(100));
 
-const myBooks = checkoutBooks('Ann', 1, 4);
-console.log('myBooks', myBooks);
-console.log('getTitles(Liang Yuxian Eugene)', getTitles('Liang Yuxian Eugene'));
-console.log('getTitles(false)', getTitles(true));
-console.log('getTitles(2, true)', getTitles(2, true));
-console.log('getTitles(3, true)', getTitles(3, true));
+const logDamage: DamageLogger = (reason: string) => console.log(`Damaged: ${reason}`);
 
-const checkedOutBooks = getTitles(false);
-console.log('checkerOutBooks', checkedOutBooks);
+const myBook: Book = {
+    id: 5,
+    title: 'Colors, Backgrounds, and Gradients',
+    author: 'Eric A. Meyer',
+    available: true,
+    category: Category.CSS,
+    pages: 200,
+    markDamaged: (reason: string) => console.log(`Damaged: ${reason}`),
+};
 
-console.log(bookTitleTransform('Typescript'));
-console.log(bookTitleTransform(100));
+// printBook(myBook);
+// myBook.markDamaged('missing back cover');
+
+// logDamage('missing back cover');
+
+const favoriteAuthor: Author = {
+    name: 'sir Arthur Conan Doyle',
+    email: 'arturka@konan.gr',
+    numBooksPublished: 1,
+};
+
+const favoriteLibrarian: Librarian = {
+    name: 'Piter',
+    email: 'peronal@piter.pan',
+    department: 'Congress lib',
+    assistCustomer: (name: string, title: string) => {
+        return `${name} ${title}`;
+    },
+};
+
+const offer: any = {
+    book: {
+        title: 'Essential TypeScript',
+    },
+};
+
+const getProperty = (book: Book, property: BookProperties): any => {
+    if (typeof book[property] === 'function') {
+        return property;
+    }
+    return book[property];
+};
+
+// console.log('offer.magazine', offer.magazine);
+// console.log('offer.magazine.getTitle()', offer.magazine?.getTitle());
+// console.log('offer.book.getTitle()', offer.book?.getTitle?.());
+// console.log('offer.book.authors[0] ', offer.book?.authors?.[0]);
+
+console.log(getProperty(getAllBooks()[0], 'title'));
+console.log(getProperty(getAllBooks()[0], 'markDamaged'));
+// console.log(getProperty(getAllBooks()[0], 'isbn'));
