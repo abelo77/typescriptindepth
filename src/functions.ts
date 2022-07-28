@@ -143,3 +143,10 @@ export function printRefBook(data: any): void {
     assertRefBookInstance(data);
     data.printItem();
 }
+
+export const purge = <T>(inventory: T[]): T[] => inventory.slice(2);
+
+export const getObjectProperty = <TObject, TKey extends keyof TObject>(
+    obj: TObject,
+    key: TKey,
+): TObject[TKey] | string => obj[key];

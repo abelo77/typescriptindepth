@@ -39,4 +39,17 @@ interface Lib {
     avgPagesPerBook: number;
 }
 
-export { Author, Book, TOptions, Person, Librarian, DamageLogger as Logger, Lib };
+interface Magazine {
+    title: string;
+    publisher: string;
+}
+
+interface ShelfItem {
+    title: string;
+    // publisher?: string;
+    // id?: number;
+    // available?: boolean;
+    // category?: Category;
+}
+
+export { Author, Book, TOptions, Person, Librarian, DamageLogger as Logger, Lib, Magazine, ShelfItem };
