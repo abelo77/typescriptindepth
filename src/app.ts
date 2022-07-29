@@ -1,3 +1,5 @@
+import Encyclopedia from './classes/encyclopedia';
+
 //
 // logFirstAvailable(getAllBooks());
 // console.log('Javascript books:');
@@ -8,18 +10,13 @@
 // console.log('getBookAuthorByIndex 1', getBookAuthorByIndex(1));
 // console.log('calcTotalPages', calcTotalPages());
 
-import { Category } from './enums';
-import Shelf from './classes/shelf';
-import { createCustomer, getObjectProperty } from './functions';
-import { CreateCustomerFunctionType } from './types';
-
-const createCustomerID = (name: string, id: number): string => `${name} ${id}`;
-const myID = createCustomerID('Ann', 10);
-
-type myFn = typeof createCustomerID;
-
-let idGenerator: myFn;
-idGenerator = createCustomerID;
+// const createCustomerID = (name: string, id: number): string => `${name} ${id}`;
+// const myID = createCustomerID('Ann', 10);
+//
+// type myFn = typeof createCustomerID;
+//
+// let idGenerator: myFn;
+// idGenerator = createCustomerID;
 
 // console.log('createCustomerID(Ann, 10)', myID);
 // console.log('idGenerator(John, 22)', idGenerator('John', 22));
@@ -165,36 +162,50 @@ idGenerator = createCustomerID;
 //
 // console.log('lib: Library', lib);
 
-const inventory = [
-    { id: 10, title: 'The C Programming Language', author: 'K & R', available: true, category: Category.Software },
-    { id: 11, title: 'Code Complete', author: 'Steve McConnell', available: true, category: Category.Software },
-    { id: 12, title: '8-Bit Graphics with Cobol', author: 'A. B.', available: true, category: Category.Software },
-    { id: 13, title: 'Cool autoexec.bat Scripts!', author: 'C. D.', available: true, category: Category.Software },
-];
+// const inventory = [
+//     { id: 10, title: 'The C Programming Language', author: 'K & R', available: true, category: Category.Software },
+//     { id: 11, title: 'Code Complete', author: 'Steve McConnell', available: true, category: Category.Software },
+//     { id: 12, title: '8-Bit Graphics with Cobol', author: 'A. B.', available: true, category: Category.Software },
+//     { id: 13, title: 'Cool autoexec.bat Scripts!', author: 'C. D.', available: true, category: Category.Software },
+// ];
 
 // console.log('purge array of books', purge(inventory));
 // console.log('purge array [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]', purge([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]));
 
-const bookShelf = new Shelf();
-inventory.forEach(item => bookShelf.add(item));
-console.log('First book on shelf', bookShelf.getFirst());
+// const bookShelf = new Shelf();
+// inventory.forEach(item => bookShelf.add(item));
+// console.log('First book on shelf', bookShelf.getFirst());
+//
+// const magazines = [
+//     { title: 'Programming Language Monthly', publisher: 'Code Mags' },
+//     { title: 'Literary Fiction Quarterly', publisher: 'College Press' },
+//     { title: 'Five Points', publisher: 'GSU' },
+// ];
+//
+// const magazineShelf = new Shelf();
+// magazines.forEach(item => magazineShelf.add(item));
+// console.log('First magazine on shelf', magazineShelf.getFirst());
+// magazineShelf.printTitles();
+// console.log('Find Five Points', magazineShelf.find('Five Points'));
+//
+// console.log(
+//     'getObjectProperty(magazineShelf.find(Five Points, title)',
+//     getObjectProperty(magazineShelf.find('Five Points'), 'title'),
+// );
+//
+// const params: Parameters<CreateCustomerFunctionType> = ['Test', 22];
+// createCustomer(...params);
 
-const magazines = [
-    { title: 'Programming Language Monthly', publisher: 'Code Mags' },
-    { title: 'Literary Fiction Quarterly', publisher: 'College Press' },
-    { title: 'Five Points', publisher: 'GSU' },
-];
+// const u = new UniversityLibrarian();
+// u.name = 'Anna';
+// console.log(u);
+// u.assistCustomer('Fedot', 'Goover');
+// console.log(u.name);
+// u['printLibrarian']();
+// u.teachCommunity = () => {
+//     console.log('None');
+// };
 
-const magazineShelf = new Shelf();
-magazines.forEach(item => magazineShelf.add(item));
-console.log('First magazine on shelf', magazineShelf.getFirst());
-magazineShelf.printTitles();
-console.log('Find Five Points', magazineShelf.find('Five Points'));
-
-console.log(
-    'getObjectProperty(magazineShelf.find(Five Points, title)',
-    getObjectProperty(magazineShelf.find('Five Points'), 'title'),
-);
-
-const params: Parameters<CreateCustomerFunctionType> = ['Test', 22];
-createCustomer(...params);
+const e = new Encyclopedia('Enc', 2020, 1, 5);
+e.copies = 10;
+e.printItem();
