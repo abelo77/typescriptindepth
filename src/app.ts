@@ -1,9 +1,3 @@
-import { Book, Librarian, Logger, TOptions } from './interfaces';
-import { Category } from './enums';
-import { Library, UniversityLibrarian } from './classes';
-import { PersonBook } from './types';
-import RefBook from './classes/encyclopedia';
-
 //
 // logFirstAvailable(getAllBooks());
 // console.log('Javascript books:');
@@ -13,6 +7,11 @@ import RefBook from './classes/encyclopedia';
 //
 // console.log('getBookAuthorByIndex 1', getBookAuthorByIndex(1));
 // console.log('calcTotalPages', calcTotalPages());
+
+import { Category } from './enums';
+import Shelf from './classes/shelf';
+import { createCustomer, getObjectProperty } from './functions';
+import { CreateCustomerFunctionType } from './types';
 
 const createCustomerID = (name: string, id: number): string => `${name} ${id}`;
 const myID = createCustomerID('Ann', 10);
@@ -44,17 +43,17 @@ idGenerator = createCustomerID;
 // console.log(bookTitleTransform('Typescript'));
 // console.log(bookTitleTransform(100));
 
-const logDamage: Logger = (reason: string) => console.log(`Damaged: ${reason}`);
-
-const myBook: Book = {
-    id: 5,
-    title: 'Colors, Backgrounds, and Gradients',
-    author: 'Eric A. Meyer',
-    available: true,
-    category: Category.CSS,
-    pages: 200,
-    markDamaged: (reason: string) => console.log(`Damaged: ${reason}`),
-};
+// const logDamage: Logger = (reason: string) => console.log(`Damaged: ${reason}`);
+//
+// const myBook: Book = {
+//     id: 5,
+//     title: 'Colors, Backgrounds, and Gradients',
+//     author: 'Eric A. Meyer',
+//     available: true,
+//     category: Category.CSS,
+//     pages: 200,
+//     markDamaged: (reason: string) => console.log(`Damaged: ${reason}`),
+// };
 
 // printBook(myBook);
 // myBook.markDamaged('missing back cover');
@@ -106,62 +105,96 @@ const myBook: Book = {
 // console.log("ref", ref);
 // console.log("getID()", ref.getID());
 
-const refBook = new RefBook('Ann', 2020, 100, 2);
-refBook.printItem();
+// const refBook = new RefBook('Ann', 2020, 100, 2);
+// refBook.printItem();
+//
+// refBook.publisher = 'Boris';
+// console.log('_Publisher ', refBook.publisher);
+// console.log('ref', refBook);
+// console.log('getID()', refBook.getID());
+// refBook.printCitation();
+//
+// const favoriteLibrarian: Librarian = new UniversityLibrarian();
+// favoriteLibrarian.name = 'Ann';
+// favoriteLibrarian.assistCustomer('USA Gov', 'How to help people?');
+//
+// const personBook: PersonBook = {
+//     name: 'Ann',
+//     title: 'How to',
+//     email: 'personal@email.com',
+//     markDamaged: param => {},
+//     available: true,
+//     category: Category.Angular,
+//     pages: 1000,
+//     id: 1000,
+//     author: 'Epamers',
+// };
+//
+// const setDefaultConfig = (options: TOptions) => {
+//     options.duration ??= 100;
+//     options.speed ??= 1;
+//     return options;
+// };
+//
+// const options: TOptions = {
+//     duration: 5,
+// };
+// // console.log(setDefaultConfig(options));
+// // printRefBook(refBook);
+// // const universityLib = new UniversityLibrarian();
+// // printRefBook(universityLib);
+//
+// const flag = true;
+//
+// if (flag) {
+//     // import('./classes').then(obj => {
+//     //     const reader = new obj.Reader();
+//     //     console.log('Reader', reader);
+//     // });
+//     const obj = await import('./classes');
+//     const reader = new obj.Reader();
+//     console.log('Await reader', reader);
+// }
+//
+// //const lib = new Library();
+// let lib: Library = {
+//     name: 'Ann',
+//     id: 1,
+//     address: 'New York',
+// };
+//
+// console.log('lib: Library', lib);
 
-refBook.publisher = 'Boris';
-console.log('_Publisher ', refBook.publisher);
-console.log('ref', refBook);
-console.log('getID()', refBook.getID());
-refBook.printCitation();
+const inventory = [
+    { id: 10, title: 'The C Programming Language', author: 'K & R', available: true, category: Category.Software },
+    { id: 11, title: 'Code Complete', author: 'Steve McConnell', available: true, category: Category.Software },
+    { id: 12, title: '8-Bit Graphics with Cobol', author: 'A. B.', available: true, category: Category.Software },
+    { id: 13, title: 'Cool autoexec.bat Scripts!', author: 'C. D.', available: true, category: Category.Software },
+];
 
-const favoriteLibrarian: Librarian = new UniversityLibrarian();
-favoriteLibrarian.name = 'Ann';
-favoriteLibrarian.assistCustomer('USA Gov', 'How to help people?');
+// console.log('purge array of books', purge(inventory));
+// console.log('purge array [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]', purge([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]));
 
-const personBook: PersonBook = {
-    name: 'Ann',
-    title: 'How to',
-    email: 'personal@email.com',
-    markDamaged: param => {},
-    available: true,
-    category: Category.Angular,
-    pages: 1000,
-    id: 1000,
-    author: 'Epamers',
-};
+const bookShelf = new Shelf();
+inventory.forEach(item => bookShelf.add(item));
+console.log('First book on shelf', bookShelf.getFirst());
 
-const setDefaultConfig = (options: TOptions) => {
-    options.duration ??= 100;
-    options.speed ??= 1;
-    return options;
-};
+const magazines = [
+    { title: 'Programming Language Monthly', publisher: 'Code Mags' },
+    { title: 'Literary Fiction Quarterly', publisher: 'College Press' },
+    { title: 'Five Points', publisher: 'GSU' },
+];
 
-const options: TOptions = {
-    duration: 5,
-};
-// console.log(setDefaultConfig(options));
-// printRefBook(refBook);
-// const universityLib = new UniversityLibrarian();
-// printRefBook(universityLib);
+const magazineShelf = new Shelf();
+magazines.forEach(item => magazineShelf.add(item));
+console.log('First magazine on shelf', magazineShelf.getFirst());
+magazineShelf.printTitles();
+console.log('Find Five Points', magazineShelf.find('Five Points'));
 
-const flag = true;
+console.log(
+    'getObjectProperty(magazineShelf.find(Five Points, title)',
+    getObjectProperty(magazineShelf.find('Five Points'), 'title'),
+);
 
-if (flag) {
-    // import('./classes').then(obj => {
-    //     const reader = new obj.Reader();
-    //     console.log('Reader', reader);
-    // });
-    const obj = await import('./classes');
-    const reader = new obj.Reader();
-    console.log('Await reader', reader);
-}
-
-//const lib = new Library();
-let lib: Library = {
-    name: 'Ann',
-    id: 1,
-    address: 'New York',
-};
-
-console.log('lib: Library', lib);
+const params: Parameters<CreateCustomerFunctionType> = ['Test', 22];
+createCustomer(...params);
