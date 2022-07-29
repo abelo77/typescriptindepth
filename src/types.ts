@@ -1,5 +1,5 @@
 import { Author, Book, Person } from './interfaces';
-import { createCustomer } from './functions';
+import { createCustomer, getBooksByCategoryPromise } from './functions';
 
 export type BookProperties = keyof Book;
 
@@ -38,3 +38,8 @@ type BookOptionalProps = OptionalProps<Book>;
 
 type BookRequiredPropsType = RemoveProps<Book, BookOptionalProps>;
 type BookOptionalPropsType = RemoveProps<Book, BookRequiredProps>;
+
+export type Nullable<T> = T | null;
+
+export type Unpromisify<T> = T extends Promise<infer S> ? S : never;
+export type RT = Unpromisify<ReturnType<typeof getBooksByCategoryPromise>>; //Awaited

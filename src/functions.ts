@@ -1,8 +1,8 @@
 /* eslint-disable no-redeclare */
 
-import { Book, Lib } from './interfaces';
+import { Book, Callback, Lib } from './interfaces';
 import { Category } from './enums';
-import { BookOrUndefined } from './types';
+import { BookOrUndefined, Nullable } from './types';
 import RefBook from './classes/encyclopedia';
 
 export const getAllBooks = (): readonly Book[] => {
@@ -184,3 +184,43 @@ export function makeProperty<T>(
         configurable: true,
     });
 }
+
+export const getBooksByCategory = (category: Category, callback: Callback<string[]>): void => {
+    setTimeout(() => {
+        try {
+            const titles = getBookTitlesByCategory(category);
+            if (!titles.length) {
+                throw new Error('No books found');
+            }
+            callback(null, titles);
+        } catch (e) {
+            callback(e, null);
+        }
+    }, 2000);
+};
+
+export const logCategorySearch = <T>(err: Nullable<Error>, data: Nullable<T>) => {
+    if (err) {
+        console.log('Error', err.message);
+    } else {
+        console.log('Titles', data);
+    }
+};
+
+export const getBooksByCategoryPromise = (category: Category): Promise<string[]> => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const titles = getBookTitlesByCategory(category);
+            if (!titles.length) {
+                reject('No books found');
+                return;
+            }
+            resolve(titles);
+        }, 2000);
+    });
+};
+
+export const logSearchResults = async (category: Category) => {
+    const data = await getBooksByCategoryPromise(category);
+    console.log('Titles awaited', data);
+};

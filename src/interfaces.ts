@@ -1,4 +1,5 @@
 import { Category } from './enums';
+import { Nullable } from './types';
 
 interface DamageLogger {
     (param: string): void;
@@ -52,4 +53,24 @@ interface ShelfItem {
     // category?: Category;
 }
 
-export { Author, Book, TOptions, Person, Librarian, DamageLogger as Logger, Lib, Magazine, ShelfItem };
+interface LibMgrCallback {
+    (err: Nullable<Error>, titles: Nullable<string[]>): void;
+}
+
+interface Callback<T> {
+    (err: Nullable<Error>, data: Nullable<T>): void;
+}
+
+export {
+    Author,
+    Book,
+    TOptions,
+    Person,
+    Librarian,
+    DamageLogger as Logger,
+    Lib,
+    Magazine,
+    ShelfItem,
+    LibMgrCallback,
+    Callback,
+};
