@@ -1,4 +1,5 @@
-import Encyclopedia from './classes/encyclopedia';
+import { getAllBooks, logSearchResults } from './functions';
+import { Category } from './enums';
 
 //
 // logFirstAvailable(getAllBooks());
@@ -206,6 +207,21 @@ import Encyclopedia from './classes/encyclopedia';
 //     console.log('None');
 // };
 
-const e = new Encyclopedia('Enc', 2020, 1, 5);
-e.copies = 10;
-e.printItem();
+// const e = new Encyclopedia('Enc', 2020, 1, 5);
+// e.copies = 10;
+// e.printItem();
+
+const books = getAllBooks();
+console.log('Begin');
+// getBooksByCategory(Category.Javascript, logCategorySearch);
+// getBooksByCategory(Category.Software, logCategorySearch);
+// getBooksByCategoryPromise(Category.Javascript)
+//     .then(data => {
+//         console.log('Titles promise: ', data);
+//         return Promise.resolve(data.length);
+//     })
+//     .then(count => console.log('Books count', count))
+//     .catch(err => console.log('Error promise: ', err));
+logSearchResults(Category.Software).catch(e => console.log(e));
+
+console.log('End');
